@@ -38,7 +38,16 @@ export default function Login() {
         }
       );
       if (response.ok) {
-        console.log(response);
+        response.headers.forEach((v,k)=>{
+          console.log(`value ${v} : key ${k} `)
+        })
+
+        const jwtToken = response.headers.get("token");
+        localStorage.setItem("token",jwtToken);
+
+        const userId = response.headers.get("userId");
+        localStorage.setItem("userId",userId);
+
         alert("welcome back");
         // Redirect to home
         navigate("/home");

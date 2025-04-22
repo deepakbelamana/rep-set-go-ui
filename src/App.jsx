@@ -1,17 +1,29 @@
-import './App.css'
-import Login from './auth/login/login'
-import { Route,Routes } from 'react-router-dom'
-import SignUp from './auth/signUp/signUp'
-import Home from './home/home'
-export default function App() {
-  
+import { Routes, Route } from 'react-router-dom';
+import Login from './auth/login/login';
+import Signup from './auth/signup/signup';
+import Home from './home/home';
+import ProtectedRoute from './components/ProtectedRoute';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
+import { Navigate } from 'react-router-dom';
 
+function App() {
   return (
     <Routes>
-    <Route path="/" element={<Login />} />
-    <Route path="/register" element={<SignUp />} />
-    <Route path="/home" element={<Home />} />
-  </Routes>
-  )
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route
+        path="/home"
+        element={
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="/" element={<Navigate to="/home" replace />} />
+    </Routes>
+  );
 }
+
+export default App;
 

@@ -1,23 +1,121 @@
+/* Container that starts from top */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
 .home-container {
-    padding: 2rem;
-    text-align: center;
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+/* Heading styling */
+.home-container h2 {
+  margin-bottom: 20px;
+}
+
+/* Empty state message */
+.empty-state {
+  font-size: 1.1rem;
+  margin-top: 10px;
+}
+
+/* Floating add button */
+.floating-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.floating-btn:hover {
+  background-color: #45a049;
+}
+
+/* Add group input form */
+.add-group-form {
+  margin-top: 20px;
+  animation: slide-in 0.3s ease-out;
+}
+
+.add-group-form input {
+  padding: 10px;
+  width: 90%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.cancel-btn,
+.save-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background-color: #1b1a1a;
+}
+
+.save-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* Custom slide-in animation */
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20%);
   }
-  
-  .empty-state {
-    margin-top: 3rem;
-    font-size: 1.2rem;
-    color: #555;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .floating-btn {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    background-color: #1e90ff;
-    color: white;
-    border: none;
-    padding: 1rem;
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
-  
+}
+
+.slide-in {
+  animation: slide-in 0.3s ease-out;
+}
+
+/* Profile icon positioning */
+.profile-icon {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  z-index: 1000;
+}
+
+/* Workout cards */
+.workout-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.workout-list li {
+  list-style: none;
+  background-color: #1b1a1a;
+  padding: 15px;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+  font-weight: 500;
+}

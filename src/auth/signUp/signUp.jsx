@@ -42,8 +42,9 @@ export default function SignUp() {
 
       const data = await response.json();
       if (response.ok) {
-        alert('Signup successful!');
-        navigate('/home');
+        alert('Signup successful! Please login to continue');
+        localStorage.clear();
+        navigate('/login');
       } else {
         alert(data.message || 'Signup failed');
       }

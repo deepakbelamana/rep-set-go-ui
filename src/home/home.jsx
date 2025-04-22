@@ -1,5 +1,5 @@
 import "./home.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Container, Card, Button, Form, ListGroup } from 'react-bootstrap';
 import Sidebar from "../components/Sidebar";
 
@@ -8,6 +8,41 @@ export default function Home() {
   const [showInput, setShowInput] = useState(false);
   const [newGroupName, setNewGroupName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchWorkoutGroups = async () => {
+      const userId = localStorage.getItem("userId");
+      const token = localStorage.getItem("token");
+      
+      if (!userId || !token) {
+        console.error("User ID or token not found");
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          `http://localhost:9090/rep-set-go/group/${userId}`,
+          {
+            method: "GET",
+            headers: {
+              "Authorization": `Bearer ${token}`
+            }
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setWorkoutLists(data);
+        } else {
+          console.error("Failed to fetch workout groups");
+        }
+      } catch (err) {
+        console.error("Error fetching workout groups:", err);
+      }
+    };
+
+    fetchWorkoutGroups();
+  }, []);
 
   const handleAddClick = () => {
     setShowInput(true);

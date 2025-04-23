@@ -1,9 +1,11 @@
 import "./home.css";
 import { useState, useEffect } from "react";
 import { Container, Card, Button, Form, ListGroup } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import Sidebar from "../components/Sidebar";
 
 export default function Home() {
+  const navigate = useNavigate();
   const [workoutLists, setWorkoutLists] = useState([]);
   const [showInput, setShowInput] = useState(false);
   const [newGroupName, setNewGroupName] = useState("");
@@ -150,6 +152,9 @@ export default function Home() {
               <ListGroup.Item 
                 key={`${list.user_id}-${list.group_name}`}
                 className="d-flex justify-content-between align-items-center bg-dark text-light border-secondary"
+                action
+                onClick={() => navigate(`/workout/${list.group_id}`, { state: { group: list } })}
+                style={{ cursor: 'pointer' }}
               >
                 {list.group_name}
               </ListGroup.Item>

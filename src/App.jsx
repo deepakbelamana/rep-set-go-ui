@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import Login from './auth/login/login';
 import Signup from './auth/signup/signup';
 import Home from './home/home';
+import Workout from './workout/Workout';
 import ProtectedRoute from './components/ProtectedRoute';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -17,6 +18,14 @@ function App() {
         element={
           <ProtectedRoute>
             <Home />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/workout/:groupId"
+        element={
+          <ProtectedRoute>
+            <Workout />
           </ProtectedRoute>
         }
       />

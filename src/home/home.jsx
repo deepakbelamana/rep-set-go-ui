@@ -128,7 +128,8 @@ export default function Home() {
           },
           body: JSON.stringify({
             group_id: editingGroup,
-            group_name: editGroupName.trim()
+            group_name: editGroupName.trim(),
+            user_id: localStorage.getItem("userId")
           })
         }
       );

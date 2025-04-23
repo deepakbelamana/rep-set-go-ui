@@ -165,7 +165,8 @@ export default function Workout() {
           },
           body: JSON.stringify({
             workout_id: editingWorkout,
-            workout_name: editWorkoutName.trim()
+            workout_name: editWorkoutName.trim(),
+            group_id: groupId
           })
         }
       );

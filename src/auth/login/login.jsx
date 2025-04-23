@@ -24,14 +24,14 @@ export default function Login() {
     e.preventDefault();
     try {
       const response = await fetch("http://localhost:9090/rep-set-go/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          pwd_hash: formData.pwd_hash,
-        }),
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            pwd_hash: formData.pwd_hash,
+          }),
       });
 
       if (response.ok) {
@@ -43,7 +43,7 @@ export default function Login() {
           localStorage.setItem("userId", userId);
           toast.success('Welcome back!', {
             onClose: () => {
-              navigate("/home");
+        navigate("/home");
             }
           });
         } else {
@@ -73,29 +73,29 @@ export default function Login() {
         pauseOnHover={false}
         theme="dark"
       />
-      <div className="login-container">
-        <h2>Login</h2>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            placeholder="email"
-            name="email"
-            onChange={handleChange}
-          />
-          <br />
-          <input
-            type="password"
-            placeholder="Password"
-            name="pwd_hash"
-            onChange={handleChange}
-          />
-          <br />
-          <button type="submit">Login</button>
-        </form>
-        <p style={{ marginTop: "1rem" }}>
-          Don't have an account? <Link to="/signup">Sign up here</Link>
-        </p>
-      </div>
+    <div className="login-container">
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="email"
+          placeholder="email"
+          name="email"
+          onChange={handleChange}
+        />
+        <br />
+        <input
+          type="password"
+          placeholder="Password"
+          name="pwd_hash"
+          onChange={handleChange}
+        />
+        <br />
+        <button type="submit">Login</button>
+      </form>
+      <p style={{ marginTop: "1rem" }}>
+        Don't have an account? <Link to="/signup">Sign up here</Link>
+      </p>
+    </div>
     </Container>
   );
 }

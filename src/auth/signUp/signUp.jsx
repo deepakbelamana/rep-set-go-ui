@@ -1,6 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom'
 import './signUp.css'
 import { useState } from 'react';
+import { Form, Button, Container } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function SignUp() {
@@ -24,7 +27,7 @@ export default function SignUp() {
     e.preventDefault();
 
     if (formData.pwd_hash !== formData.confirmPwd_hash) {
-      alert('Passwords do not match');
+      toast.error('Passwords do not match');
       return;
     }
   
@@ -42,30 +45,44 @@ export default function SignUp() {
 
       const data = await response.json();
       if (response.ok) {
-        alert('Signup successful! Please login to continue');
+        toast.success('Signup successful! Please login to continue');
         localStorage.clear();
         navigate('/login');
       } else {
-        alert(data.message || 'Signup failed');
+        toast.error(data.message || 'Signup failed');
       }
     } catch (err) {
       console.error('Signup error:', err);
-      alert('Something went wrong');
+      toast.error('Something went wrong');
     }
   };
 
   return (
-    <div className="signup-container">
-      <h2>Sign Up</h2>
-      <form onSubmit={handleSubmit}> 
-        <input type="email" placeholder="Email" name="email" onChange={handleChange}/><br />
-        <input type="password" placeholder="Password" name="pwd_hash" onChange={handleChange}/><br />
-        <input type="password" placeholder="Confirm Password" name="confirmPwd_hash" onChange={handleChange} /><br />
-        <button type="submit">Create Account</button>
-      </form>
-      <p style={{ marginTop: '1rem' }}>
-        Already have an account? <Link to="/">Login here</Link>
-      </p>
-    </div>
+    <Container className="py-4">
+      <ToastContainer 
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      <div className="signup-container">
+        <h2>Sign Up</h2>
+        <form onSubmit={handleSubmit}> 
+          <input type="email" placeholder="Email" name="email" onChange={handleChange}/><br />
+          <input type="password" placeholder="Password" name="pwd_hash" onChange={handleChange}/><br />
+          <input type="password" placeholder="Confirm Password" name="confirmPwd_hash" onChange={handleChange} /><br />
+          <button type="submit">Create Account</button>
+        </form>
+        <p style={{ marginTop: '1rem' }}>
+          Already have an account? <Link to="/">Login here</Link>
+        </p>
+      </div>
+    </Container>
   )
 }

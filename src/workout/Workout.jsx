@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
-import { FaEdit, FaTrash } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaCheck, FaTimes } from 'react-icons/fa';
 import { useParams, useLocation } from 'react-router-dom';
 import { Card, Form, Button, Container } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from "../components/Sidebar";
 import './workout.css';
 
@@ -13,6 +15,8 @@ export default function Workout() {
   const [showInput, setShowInput] = useState(false);
   const [newWorkoutName, setNewWorkoutName] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const [editingWorkout, setEditingWorkout] = useState(null);
+  const [editWorkoutName, setEditWorkoutName] = useState("");
 
   useEffect(() => {
     const fetchWorkouts = async () => {
@@ -46,13 +50,49 @@ export default function Workout() {
   }, [groupId]);
 
   const handleEdit = (workoutId) => {
-    // TODO: Implement edit functionality
-    console.log("Edit workout:", workoutId);
+    const workout = workouts.find(w => w.workout_id === workoutId);
+    if (workout) {
+      setEditingWorkout(workoutId);
+      setEditWorkoutName(workout.workout_name);
+    }
   };
 
-  const handleDelete = (workoutId) => {
-    // TODO: Implement delete functionality
-    console.log("Delete workout:", workoutId);
+  const handleDelete = async (workoutId) => {
+    if (!window.confirm('Are you sure you want to delete this workout?')) {
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+    const workoutToDelete = workouts.find(workout => workout.workout_id === workoutId);
+    
+    if (!workoutToDelete) {
+      toast.error('Workout not found');
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:9090/rep-set-go/workout`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify(workoutToDelete)
+        }
+      );
+
+      if (response.ok) {
+        setWorkouts(workouts.filter(workout => workout.workout_id !== workoutId));
+        toast.success('Workout deleted successfully!');
+      } else {
+        toast.error('Failed to delete workout. Please try again.');
+      }
+    } catch (err) {
+      console.error("Error deleting workout:", err);
+      toast.error('An error occurred while deleting the workout.');
+    }
   };
 
   const handleAddWorkout = () => {
@@ -93,14 +133,58 @@ export default function Workout() {
         setWorkouts([...workouts, savedWorkout]);
         setNewWorkoutName("");
         setShowInput(false);
+        toast.success('Workout saved successfully!');
       } else {
-        alert("Failed to save workout. Please try again.");
+        toast.error('Failed to save workout. Please try again.');
       }
     } catch (err) {
       console.error("Error saving workout:", err);
-      alert("An error occurred. Please try again.");
+      toast.error('An error occurred. Please try again.');
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingWorkout(null);
+    setEditWorkoutName("");
+  };
+
+  const handleSaveEdit = async () => {
+    if (!editingWorkout || editWorkoutName.trim() === "") return;
+
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch(
+        `http://localhost:9090/rep-set-go/workout`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            workout_id: editingWorkout,
+            workout_name: editWorkoutName.trim()
+          })
+        }
+      );
+
+      if (response.ok) {
+        setWorkouts(workouts.map(workout => 
+          workout.workout_id === editingWorkout 
+            ? { ...workout, workout_name: editWorkoutName.trim() }
+            : workout
+        ));
+        setEditingWorkout(null);
+        setEditWorkoutName("");
+        toast.success('Workout updated successfully!');
+      } else {
+        toast.error('Failed to update workout. Please try again.');
+      }
+    } catch (err) {
+      console.error("Error updating workout:", err);
+      toast.error('An error occurred while updating the workout.');
     }
   };
 
@@ -116,6 +200,18 @@ export default function Workout() {
   return (
     <Container className="py-4">
       <Sidebar />
+      <ToastContainer 
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className="workout-container">
         <h2 className="workout-header">{state?.group?.group_name || 'Workout Group'}</h2>
         
@@ -167,23 +263,53 @@ export default function Workout() {
           <div className="workout-list">
             {workouts.map((workout) => (
               <div key={workout.workout_id} className="workout-item">
-                <p className="workout-name">{workout.workout_name}</p>
-                <div className="workout-actions">
-                  <button 
-                    className="action-button"
-                    onClick={() => handleEdit(workout.workout_id)}
-                    aria-label="Edit workout"
-                  >
-                    <FaEdit />
-                  </button>
-                  <button 
-                    className="action-button"
-                    onClick={() => handleDelete(workout.workout_id)}
-                    aria-label="Delete workout"
-                  >
-                    <FaTrash />
-                  </button>
-                </div>
+                {editingWorkout === workout.workout_id ? (
+                  <div className="d-flex align-items-center gap-2 w-100">
+                    <Form.Control
+                      type="text"
+                      value={editWorkoutName}
+                      onChange={(e) => setEditWorkoutName(e.target.value)}
+                      className="bg-dark text-light border-secondary"
+                      autoFocus
+                    />
+                    <div className="workout-actions">
+                      <button 
+                        className="action-button save"
+                        onClick={handleSaveEdit}
+                        aria-label="Save changes"
+                      >
+                        <FaCheck />
+                      </button>
+                      <button 
+                        className="action-button cancel"
+                        onClick={handleCancelEdit}
+                        aria-label="Cancel edit"
+                      >
+                        <FaTimes />
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <p className="workout-name">{workout.workout_name}</p>
+                    <div className="workout-actions">
+                      <button 
+                        className="action-button edit"
+                        onClick={() => handleEdit(workout.workout_id)}
+                        aria-label="Edit workout"
+                      >
+                        <FaEdit />
+                      </button>
+                      <button 
+                        className="action-button delete"
+                        onClick={() => handleDelete(workout.workout_id)}
+                        aria-label="Delete workout"
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
             ))}
           </div>

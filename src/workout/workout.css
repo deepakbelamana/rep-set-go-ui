@@ -62,8 +62,23 @@
   transition: all 0.2s ease;
 }
 
-.action-button:hover {
+.action-button.edit:hover {
   color: #4CAF50;
+  transform: scale(1.1);
+}
+
+.action-button.delete:hover {
+  color: #ff4444;
+  transform: scale(1.1);
+}
+
+.action-button.save:hover {
+  color: #4CAF50;
+  transform: scale(1.1);
+}
+
+.action-button.cancel:hover {
+  color: #ff4444;
   transform: scale(1.1);
 }
 

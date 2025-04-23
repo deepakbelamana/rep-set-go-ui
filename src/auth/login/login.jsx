@@ -1,6 +1,9 @@
 import "./login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Form, Button, Container } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -18,71 +21,81 @@ export default function Login() {
   };
 
   const handleSubmit = async (e) => {
-    console.log(JSON.stringify({
-      email: formData.email,
-      pwd_hash: formData.pwd_hash,
-    }));
     e.preventDefault();
     try {
-      const response = await fetch(
-        "http://localhost:9090/rep-set-go/users/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: formData.email,
-            pwd_hash: formData.pwd_hash,
-          }),
-        }
-      );
+      const response = await fetch("http://localhost:9090/rep-set-go/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          pwd_hash: formData.pwd_hash,
+        }),
+      });
+
       if (response.ok) {
-        response.headers.forEach((v,k)=>{
-          console.log(`value ${v} : key ${k} `)
-        })
-
         const jwtToken = response.headers.get("token");
-        localStorage.setItem("token",jwtToken);
-
         const userId = response.headers.get("userId");
-        localStorage.setItem("userId",userId);
-
-        alert("welcome back");
-        // Redirect to home
-        navigate("/home");
+        
+        if (jwtToken) {
+          localStorage.setItem("token", jwtToken);
+          localStorage.setItem("userId", userId);
+          toast.success('Welcome back!', {
+            onClose: () => {
+              navigate("/home");
+            }
+          });
+        } else {
+          toast.error('Login successful but token not received');
+        }
       } else {
-        alert('login failed');
+        const errorText = await response.text();
+        toast.error(errorText || 'Login failed');
       }
     } catch (err) {
-      console.log(err);
-      alert("something went wrong..!");
+      console.error("Error during login:", err);
+      toast.error('Something went wrong..!');
     }
   };
 
   return (
-    <div className="login-container">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="email"
-          name="email"
-          onChange={handleChange}
-        />
-        <br />
-        <input
-          type="password"
-          placeholder="Password"
-          name="pwd_hash"
-          onChange={handleChange}
-        />
-        <br />
-        <button type="submit">Login</button>
-      </form>
-      <p style={{ marginTop: "1rem" }}>
-        Don't have an account? <Link to="/signup">Sign up here</Link>
-      </p>
-    </div>
+    <Container className="py-4">
+      <ToastContainer 
+        position="top-right"
+        autoClose={1500}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable={false}
+        pauseOnHover={false}
+        theme="dark"
+      />
+      <div className="login-container">
+        <h2>Login</h2>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder="email"
+            name="email"
+            onChange={handleChange}
+          />
+          <br />
+          <input
+            type="password"
+            placeholder="Password"
+            name="pwd_hash"
+            onChange={handleChange}
+          />
+          <br />
+          <button type="submit">Login</button>
+        </form>
+        <p style={{ marginTop: "1rem" }}>
+          Don't have an account? <Link to="/signup">Sign up here</Link>
+        </p>
+      </div>
+    </Container>
   );
 }

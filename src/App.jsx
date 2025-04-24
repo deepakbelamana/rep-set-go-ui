@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Login from './auth/login/login';
-import Signup from './auth/signup/signup';
+import Signup from './auth/signup/signUp';
 import Home from './home/home';
 import Workout from './workout/Workout';
 import Set from './set/Set';

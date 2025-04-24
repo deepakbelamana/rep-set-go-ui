@@ -90,7 +90,7 @@ export default function Login() {
           onChange={handleChange}
         />
         <br />
-        <button type="submit">Login</button>
+        <button type="submit" style={{borderRadius:4}}>Login</button>
       </form>
       <p style={{ marginTop: "1rem" }}>
         Don't have an account? <Link to="/signup">Sign up here</Link>

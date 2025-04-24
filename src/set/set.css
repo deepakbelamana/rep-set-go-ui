@@ -1,0 +1,26 @@
+/* Styles for Set component */
+
+/* Container padding and background */
+.set-container {
+  padding-top: 1rem;
+  color: #fff;
+}
+
+/* Header styling */
+.set-header {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Placeholder message styling */
+p.set-placeholder {
+  color: #ccc;
+} 
+
+input.form-control::placeholder {
+  color: #616161 !important;
+  opacity: 1 !important;
+}
+
+

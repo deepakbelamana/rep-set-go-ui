@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FaEdit, FaTrash, FaCheck, FaTimes } from 'react-icons/fa';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { Card, Form, Button, Container } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,6 +10,7 @@ import './workout.css';
 export default function Workout() {
   const { groupId } = useParams();
   const { state } = useLocation();
+  const navigate = useNavigate();
   const [workouts, setWorkouts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showInput, setShowInput] = useState(false);
@@ -263,7 +264,12 @@ export default function Workout() {
         {workouts.length > 0 && (
           <div className="workout-list">
             {workouts.map((workout) => (
-              <div key={workout.workout_id} className="workout-item">
+              <div
+                key={workout.workout_id}
+                className="workout-item"
+                onClick={() => navigate(`/set/${workout.workout_id}`, { state: { workout } })}
+                style={{ cursor: 'pointer' }}
+              >
                 {editingWorkout === workout.workout_id ? (
                   <div className="d-flex align-items-center gap-2 w-100">
                     <Form.Control

@@ -3,6 +3,7 @@ import Login from './auth/login/login';
 import Signup from './auth/signup/signup';
 import Home from './home/home';
 import Workout from './workout/Workout';
+import Set from './set/Set';
 import ProtectedRoute from './components/ProtectedRoute';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -26,6 +27,14 @@ function App() {
         element={
           <ProtectedRoute>
             <Workout />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/set/:workoutId"
+        element={
+          <ProtectedRoute>
+            <Set />
           </ProtectedRoute>
         }
       />

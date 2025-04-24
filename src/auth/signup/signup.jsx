@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
-import './signUp.css'
+
 import { useState } from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';

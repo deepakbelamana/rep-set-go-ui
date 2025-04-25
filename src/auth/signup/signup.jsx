@@ -32,7 +32,7 @@ export default function Signup() {
     }
   
     try {
-      const response = await fetch('http://localhost:9090/rep-set-go/users', {
+      const response = await fetch('https://repsetgo.onrender.com/rep-set-go/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

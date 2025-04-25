@@ -22,7 +22,7 @@ export default function Set () {
       const token = localStorage.getItem('token')
       try {
         const response = await fetch(
-          `http://localhost:9090/rep-set-go/set/${workoutId}`,
+          `https://repsetgo.onrender.com/rep-set-go/set/${workoutId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         )
         if (response.ok) {
@@ -52,7 +52,7 @@ export default function Set () {
     }
     const token = localStorage.getItem('token')
     try {
-      const response = await fetch('http://localhost:9090/rep-set-go/set', {
+      const response = await fetch('https://repsetgo.onrender.com/rep-set-go/set', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

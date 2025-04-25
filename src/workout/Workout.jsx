@@ -26,7 +26,7 @@ export default function Workout() {
       const token = localStorage.getItem("token");
       try {
         const response = await fetch(
-          `http://localhost:9090/rep-set-go/workout/${groupId}`,
+          `https://repsetgo.onrender.com/rep-set-go/workout/${groupId}`,
           {
             headers: {
               "Authorization": `Bearer ${token}`
@@ -73,7 +73,7 @@ export default function Workout() {
 
     try {
       const response = await fetch(
-        `http://localhost:9090/rep-set-go/workout`,
+        `https://repsetgo.onrender.com/rep-set-go/workout`,
         {
           method: "DELETE",
           headers: {
@@ -118,7 +118,7 @@ export default function Workout() {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        "http://localhost:9090/rep-set-go/workout",
+        "https://repsetgo.onrender.com/rep-set-go/workout",
         {
           method: "POST",
           headers: {
@@ -157,7 +157,7 @@ export default function Workout() {
     const token = localStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://localhost:9090/rep-set-go/workout`,
+        `https://repsetgo.onrender.com/rep-set-go/workout`,
         {
           method: "PUT",
           headers: {

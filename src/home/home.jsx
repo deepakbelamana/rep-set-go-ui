@@ -28,7 +28,7 @@ export default function Home() {
 
       try {
         const response = await fetch(
-          `http://localhost:9090/rep-set-go/group/${userId}`,
+          `https://repsetgo.onrender.com/rep-set-go/group/${userId}`,
           {
             method: "GET",
             headers: {
@@ -73,7 +73,7 @@ export default function Home() {
       const token = localStorage.getItem("token");
       
       const response = await fetch(
-        "http://localhost:9090/rep-set-go/group",
+        "https://repsetgo.onrender.com/rep-set-go/group",
         {
           method: "POST",
           headers: {
@@ -119,7 +119,7 @@ export default function Home() {
     const token = localStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://localhost:9090/rep-set-go/group`,
+        `https://repsetgo.onrender.com/rep-set-go/group`,
         {
           method: "PUT",
           headers: {
@@ -167,7 +167,7 @@ export default function Home() {
 
     try {
       const response = await fetch(
-        `http://localhost:9090/rep-set-go/group`,
+        `https://repsetgo.onrender.com/rep-set-go/group`,
         {
           method: "DELETE",
           headers: {

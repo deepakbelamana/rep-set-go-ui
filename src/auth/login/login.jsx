@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function Login() {
   const navigate = useNavigate();
-
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const [formData, setFormData] = useState({
     email: "",
     pwd_hash: "",
@@ -23,7 +23,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://repsetgo.onrender.com/rep-set-go/users/login", {
+      const response = await fetch(baseUrl+"/users/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

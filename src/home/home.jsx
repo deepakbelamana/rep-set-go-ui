@@ -15,12 +15,13 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [editingGroup, setEditingGroup] = useState(null);
   const [editGroupName, setEditGroupName] = useState("");
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     const fetchWorkoutGroups = async () => {
       const userId = localStorage.getItem("userId");
       const token = localStorage.getItem("token");
-      
+      const baseUrl = import.meta.env.VITE_API_BASE_URL;
       if (!userId || !token) {
         console.error("User ID or token not found");
         return;
@@ -28,7 +29,7 @@ export default function Home() {
 
       try {
         const response = await fetch(
-          `https://repsetgo.onrender.com/rep-set-go/group/${userId}`,
+          `${baseUrl}/group/${userId}`,
           {
             method: "GET",
             headers: {
@@ -73,7 +74,7 @@ export default function Home() {
       const token = localStorage.getItem("token");
       
       const response = await fetch(
-        "https://repsetgo.onrender.com/rep-set-go/group",
+        `${baseUrl}/group`,
         {
           method: "POST",
           headers: {
@@ -119,7 +120,7 @@ export default function Home() {
     const token = localStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://repsetgo.onrender.com/rep-set-go/group`,
+        `${baseUrl}/group`,
         {
           method: "PUT",
           headers: {
@@ -167,7 +168,7 @@ export default function Home() {
 
     try {
       const response = await fetch(
-        `https://repsetgo.onrender.com/rep-set-go/group`,
+        `${baseUrl}/group`,
         {
           method: "DELETE",
           headers: {

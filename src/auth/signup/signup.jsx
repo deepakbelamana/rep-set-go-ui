@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function Signup() {
-
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const [formData, setFormData] = useState({
     email: '',
     pwd_hash: '',
@@ -32,7 +32,7 @@ export default function Signup() {
     }
   
     try {
-      const response = await fetch('https://repsetgo.onrender.com/rep-set-go/users', {
+      const response = await fetch(`${baseUrl}/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

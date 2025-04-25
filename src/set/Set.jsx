@@ -15,14 +15,14 @@ export default function Set () {
   const [repCount, setRepCount] = useState('')
   const [weight, setWeight] = useState('')
   const [isSaving, setIsSaving] = useState(false)
-
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
   useEffect(() => {
     const fetchSets = async () => {
       if (!workoutId) return
       const token = localStorage.getItem('token')
       try {
         const response = await fetch(
-          `https://repsetgo.onrender.com/rep-set-go/set/${workoutId}`,
+          `${baseUrl}/set/${workoutId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         )
         if (response.ok) {
@@ -52,7 +52,7 @@ export default function Set () {
     }
     const token = localStorage.getItem('token')
     try {
-      const response = await fetch('https://repsetgo.onrender.com/rep-set-go/set', {
+      const response = await fetch(`${baseUrl}/set`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

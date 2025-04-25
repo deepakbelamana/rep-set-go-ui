@@ -18,15 +18,15 @@ export default function Workout() {
   const [isSaving, setIsSaving] = useState(false);
   const [editingWorkout, setEditingWorkout] = useState(null);
   const [editWorkoutName, setEditWorkoutName] = useState("");
-
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
   useEffect(() => {
     const fetchWorkouts = async () => {
       if (!groupId) return;
-
+      const baseUrl = import.meta.env.VITE_API_BASE_URL;
       const token = localStorage.getItem("token");
       try {
         const response = await fetch(
-          `https://repsetgo.onrender.com/rep-set-go/workout/${groupId}`,
+          `${baseUrl}/workout/${groupId}`,
           {
             headers: {
               "Authorization": `Bearer ${token}`
@@ -73,7 +73,7 @@ export default function Workout() {
 
     try {
       const response = await fetch(
-        `https://repsetgo.onrender.com/rep-set-go/workout`,
+        `${baseUrl}/workout`,
         {
           method: "DELETE",
           headers: {
@@ -118,7 +118,7 @@ export default function Workout() {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        "https://repsetgo.onrender.com/rep-set-go/workout",
+        baseUrl+"/workout",
         {
           method: "POST",
           headers: {
@@ -157,7 +157,7 @@ export default function Workout() {
     const token = localStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://repsetgo.onrender.com/rep-set-go/workout`,
+        `${baseUrl}/workout`,
         {
           method: "PUT",
           headers: {

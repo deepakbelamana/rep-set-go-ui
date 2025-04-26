@@ -73,6 +73,9 @@ export default function Login() {
         pauseOnHover={false}
         theme="dark"
       />
+    <div>
+      <h1>Rep Set Go</h1>
+    </div>
     <div className="login-container">
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>

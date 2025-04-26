@@ -187,7 +187,7 @@ export default function SetPage() {
           </thead>
           <tbody>
             {filteredSets.length ? (
-              filteredSets.slice(0, 3).map((s, idx) => (
+              filteredSets.map((s, idx) => (
                 <tr key={s.set_id || idx}>
                   <td>{idx + 1}</td>
                   <td>{s.rep_count}</td>

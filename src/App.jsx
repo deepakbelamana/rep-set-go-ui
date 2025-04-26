@@ -3,11 +3,13 @@ import Login from './auth/login/login';
 import SignUp from './auth/signup/signup'
 import Home from './home/home';
 import Workout from './workout/Workout';
-import Set from './set/Set';
+
 import ProtectedRoute from './components/ProtectedRoute';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { Navigate } from 'react-router-dom';
+import Progress from './progress/progress';
+import SetPage from './set/setpage';
 
 function App() {
   return (
@@ -34,7 +36,15 @@ function App() {
         path="/set/:workoutId"
         element={
           <ProtectedRoute>
-            <Set />
+           <SetPage/>
+          </ProtectedRoute>
+        }
+      />
+       <Route
+        path="/progress/:workoutId"
+        element={
+          <ProtectedRoute>
+           <Progress />
           </ProtectedRoute>
         }
       />

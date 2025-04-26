@@ -12,7 +12,7 @@ export default function Sidebar() {
     if (window.confirm("Are you sure you want to logout?")) {
       localStorage.removeItem("userId");
       localStorage.removeItem("token");
-      window.location.href = "/login";
+      window.location.href = "/";
     }
   };
 

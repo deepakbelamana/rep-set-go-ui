@@ -224,7 +224,7 @@ export default function SetPage () {
       )}
 
       {/* Check Progress Button */}
-      <div className='fixed-bottom text-center mb-3'>
+      {sets.length>0?<div className='fixed-bottom text-center mb-3'>
         <Button
           variant='success'
           size='lg'
@@ -232,7 +232,8 @@ export default function SetPage () {
         >
           Check Progress
         </Button>
-      </div>
+      </div> :<p></p>}
+      
     </Container>
   )
 }

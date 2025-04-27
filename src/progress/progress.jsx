@@ -10,6 +10,7 @@ import {
   CartesianGrid,
   ResponsiveContainer
 } from 'recharts'
+import Sidebar from '../components/Sidebar'
 
 export default function Progress () {
   const { workoutId } = useParams()
@@ -48,6 +49,7 @@ export default function Progress () {
 
   return (
     <Container fluid className='py-5 text-light'>
+      <Sidebar />
       <h2 className='text-center mb-5'>Progress Chart</h2>
       <Row>
         {/* Chart Section */}

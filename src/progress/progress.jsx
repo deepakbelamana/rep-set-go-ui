@@ -15,6 +15,7 @@ import Sidebar from '../components/Sidebar'
 export default function Progress () {
   const { workoutId } = useParams()
   const [volumeData, setVolumeData] = useState({})
+  const [oneRm,SetOneRm] = useState(0.0)
   const [loading, setLoading] = useState(true)
   const baseUrl = import.meta.env.VITE_API_BASE_URL
 
@@ -43,6 +44,33 @@ export default function Progress () {
     fetchVolume()
   }, [baseUrl, workoutId])
 
+  useEffect(() => {
+    const fetchOneRm = async () => {
+      const token = localStorage.getItem('token')
+      try {
+        const response = await fetch(`${baseUrl}/set/progress/oneRm/${workoutId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        if (response.ok) {
+          const data = await response.json()
+          console.log(data);
+          SetOneRm(data)
+        } else {
+          console.error('Failed to fetch volume data')
+        }
+      } catch (err) {
+        console.error('Error:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchOneRm()
+  }, [baseUrl, workoutId])
+
+
   const chartData = Object.entries(volumeData)
     .map(([date, volume]) => ({ date, volume }))
     .sort((a, b) => new Date(a.date) - new Date(b.date))
@@ -50,7 +78,7 @@ export default function Progress () {
   return (
     <Container fluid className='py-5 text-light'>
       <Sidebar />
-      <h2 className='text-center mb-5'>Progress Chart</h2>
+      <Row><h2 className='text-center mb-5'>your one rep max for this workout is {oneRm.toFixed(2)} kgs</h2></Row>
       <Row>
         {/* Chart Section */}
         <Col md={6}>
@@ -60,33 +88,37 @@ export default function Progress () {
             ) : chartData.length === 0 ? (
               <p>No data available.</p>
             ) : (
-              <ResponsiveContainer width='100%' height={300}>
+              
+              <div style={{ width: '100%',
+                maxWidth: '100%',
+                overflow: 'hidden', 
+                padding:0,
+                display: 'flex',
+                justifyContent:'center',
+                alignItems: 'center' }}>
+              <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={chartData}>
-                  <CartesianGrid strokeDasharray='3 3' />
-                  <XAxis dataKey='date' />
+                  <XAxis dataKey="date" />
                   <YAxis />
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: '#1e1e1e', // dark background
-                      borderColor: '#555', // softer border
+                      backgroundColor: '#1e1e1e',
+                      borderColor: '#555',
                       borderRadius: '10px'
                     }}
-                    itemStyle={{
-                      color: '#00ff99' // color of text inside
-                    }}
-                    labelStyle={{
-                      color: '#ccc' // color of the label (date)
-                    }}
+                    itemStyle={{ color: '#00ff99' }}
+                    labelStyle={{ color: '#ccc' }}
                   />
                   <Line
-                    type='natural'
-                    dataKey='volume'
-                    stroke='#00ff99'
+                    type="natural"
+                    dataKey="volume"
+                    stroke="#00ff99"
                     strokeWidth={3}
                     dot={{ r: 5 }}
                   />
                 </LineChart>
               </ResponsiveContainer>
+            </div>            
             )}
           </div>
         </Col>
